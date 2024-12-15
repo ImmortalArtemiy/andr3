@@ -33,15 +33,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private void insertInitialData(SQLiteDatabase db) {
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, "Артём");
+        values.put(COLUMN_NAME, "Иван");
         values.put(COLUMN_DATE, "2024-11-01");
         db.insert(TABLE_NAME, null, values);
 
-        values.put(COLUMN_NAME, "Мария");
+        values.put(COLUMN_NAME, "Петя");
         values.put(COLUMN_DATE, "2024-11-10");
         db.insert(TABLE_NAME, null, values);
 
-        values.put(COLUMN_NAME, "Дмитрий");
+        values.put(COLUMN_NAME, "Женя");
         values.put(COLUMN_DATE, "2024-11-15");
         db.insert(TABLE_NAME, null, values);
     }
@@ -58,7 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public void deleteAllUsers() {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("DELETE FROM " + TABLE_NAME); // Удаляем только содержимое таблицы
+        db.execSQL("DELETE FROM " + TABLE_NAME);
         db.close();
     }
 
@@ -66,11 +66,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void restoreInitialData() {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Проверяем, пуста ли таблица
         Cursor cursor = db.rawQuery("SELECT COUNT(*) FROM " + TABLE_NAME, null);
         if (cursor.moveToFirst()) {
             int count = cursor.getInt(0);
-            if (count == 0) { // Если записей нет, добавляем начальные данные
+            if (count == 0) {
                 insertInitialData(db);
             }
         }
@@ -90,14 +89,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateLastUserName(String newName) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Получаем ID последней записи
         Cursor cursor = db.rawQuery("SELECT MAX(" + COLUMN_ID + ") FROM " + TABLE_NAME, null);
         if (cursor.moveToFirst()) {
             int lastId = cursor.getInt(0); // ID последней записи
             ContentValues values = new ContentValues();
             values.put(COLUMN_NAME, newName);
 
-            // Обновляем имя в последней записи
             db.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{String.valueOf(lastId)});
         }
         cursor.close();

@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Обработка нажатия кнопки добавления записи
         addButton.setOnClickListener(v -> {
-            String name = "Фурри";
-            String date = "2024-11-20"; // Пример текущей даты
+            String name = "Новый пользователь";
+            String date = "2024-12-16"; // Пример текущей даты
             databaseHelper.addUser(name, date); // Добавляем новую запись
             layout.removeAllViews();           // Очищаем текущий интерфейс
             displayAllUsers(layout);           // Отображаем обновленные данные
